@@ -13,7 +13,13 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 CORS(app)  # Permet les appels depuis l'artifact Claude
 
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+client = None
+
+def get_client():
+    global client
+    if client is None:
+        client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+    return client
 
 # ── Outils disponibles pour l'agent ─────────────────────────────────────────
 AGENT_TOOLS = [{"type": "web_search_20250305", "name": "web_search"}]
